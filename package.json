@@ -1,0 +1,29 @@
+{
+  "name": "helpingangel",
+  "version": "1.0.0",
+  "description": "Make it worth it for society.",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Seras3/HelpingAngel-Backend.git"
+  },
+  "keywords": [
+    "foodwaste",
+    "society",
+    "smart",
+    "city"
+  ],
+  "author": "HelpingTeam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Seras3/HelpingAngel-Backend/issues"
+  },
+  "homepage": "https://github.com/Seras3/HelpingAngel-Backend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.4"
+  }
+}
