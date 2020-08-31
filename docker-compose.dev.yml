@@ -16,7 +16,11 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile.dev
-    command: python /root/app/manage.py runserver 0.0.0.0:8000
+    command: >
+      bash -c "cd root/app && 
+        python manage.py makemigrations &&
+        python manage.py migrate && 
+        python manage.py runserver 0.0.0.0:8000"
     env_file:
       - ./.env.dev
     volumes:
