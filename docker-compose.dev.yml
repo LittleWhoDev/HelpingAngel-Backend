@@ -6,15 +6,17 @@ services:
     env_file:
       - ./.env.dev
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${DB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
     ports:
       - 27017:27017
     volumes:
       - mongodb_data_container:/data/db
   web:
-    build: .
-    command: python /root/app/manage.py runserver 0:8000
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    command: python /root/app/manage.py runserver 0.0.0.0:8000
     env_file:
       - ./.env.dev
     volumes:
@@ -26,5 +28,3 @@ services:
 volumes:
   mongodb_data_container:
 
-
-# docker-compose exec web pytest

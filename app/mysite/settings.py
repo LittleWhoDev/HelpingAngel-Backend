@@ -9,9 +9,6 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-from dotenv import load_dotenv
-load_dotenv()
-
 import os
 
 
@@ -30,7 +27,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(" ")
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -81,15 +78,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+        "ENGINE": os.environ.get("DB_ENGINE"),
+        "ENFORCE_SCHEMA": True,
+        "NAME": os.environ.get("DB_NAME"),
+        "CLIENT": {
+            "host": os.environ.get("DB_HOST"),
+            "port": int(os.environ.get("DB_PORT")),
+            "username": os.environ.get("DB_USER"),
+            "password": os.environ.get("DB_PASSWORD"),
+        }
     }
 }
-
 
 
 # Password validation

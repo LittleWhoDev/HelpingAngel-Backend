@@ -1,4 +1,4 @@
 FROM python:3
-COPY requirements.txt /root
-RUN pip install -r /root/requirements.txt
+COPY requirements.prod.txt /root
+RUN pip install -r /root/requirements.prod.txt
 COPY . /root
