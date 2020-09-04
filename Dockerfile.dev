@@ -1,4 +1,9 @@
-FROM python:3
-COPY requirements.dev.txt /root
-RUN pip install -r /root/requirements.dev.txt
-COPY . /root
+FROM node:14
+
+RUN mkdir -p /usr/src/app && chown -R node:node /usr/src/app
+
+USER node
+WORKDIR /usr/src/app
+
+COPY --chown=node:node ./app/package*.json ./
+COPY --chown=node:node ./app ./

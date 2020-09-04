@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   db:
@@ -13,22 +13,17 @@ services:
     volumes:
       - mongodb_data_container:/data/db
   web:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile.dev
-    command: >
-      bash -c "cd root/app && 
-        python manage.py makemigrations &&
-        python manage.py migrate && 
-        python manage.py runserver 0.0.0.0:8000"
     env_file:
       - ./.env.dev
     volumes:
-      - ./app:/root/app
+      - ./app:/usr/src/app
     ports:
-      - 8000:8000
+      - 3000:3000
     depends_on:
       - db
+    command: npm run start:dev
 volumes:
   mongodb_data_container:
-

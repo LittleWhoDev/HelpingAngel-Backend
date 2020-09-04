@@ -1,4 +1,11 @@
-FROM python:3
-COPY requirements.prod.txt /root
-RUN pip install -r /root/requirements.prod.txt
-COPY . /root
+FROM node:14
+
+RUN mkdir -p /usr/src/app && chown -R node:node /usr/src/app
+
+USER node
+WORKDIR /usr/src/app
+
+COPY --chown=node:node ./app/package*.json ./
+RUN npm ci --only=production
+
+COPY --chown=node:node ./app ./
