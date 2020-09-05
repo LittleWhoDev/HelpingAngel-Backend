@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export enum PostCategory {
   FOOD,
@@ -12,9 +12,6 @@ export enum PostType {
 
 @Schema()
 export class Post extends Document {
-  @Prop()
-  name: string;
-
   @Prop({ required: true })
   title: string;
 
@@ -26,6 +23,10 @@ export class Post extends Document {
 
   @Prop({ required: true })
   category: PostCategory;
+
+  // TODO: add relation
+  @Prop()
+  author;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
