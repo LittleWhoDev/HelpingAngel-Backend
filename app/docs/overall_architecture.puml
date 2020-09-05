@@ -1,0 +1,25 @@
+@startuml Overall_architecture
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+Person(user, "User", "Donates or requests food")
+
+System_Boundary(main, "Main application") {
+    Container(frontend, "Frontend", "ReactJS, Flutter")
+    Container(loadBalancer, "Load balancer", "nginx")
+    Container(backendSwarm, "Backend API Swarm", "pm2, NestJS")
+    ContainerDb(database, "Main database", "MongoDB")
+}
+
+System_Ext(analytics, "Google Analytics")
+
+Rel(user, frontend, "View the map/individial object")
+
+Rel_L(frontend, loadBalancer, "Get posts/profiles")
+Rel_R(frontend, analytics, "Deliver user statistics")
+
+Rel_D(loadBalancer, backendSwarm, "Forward the request to a swarm worker")
+
+Rel_R(backendSwarm, database, "Fetch posts/profiles")
+
+@enduml

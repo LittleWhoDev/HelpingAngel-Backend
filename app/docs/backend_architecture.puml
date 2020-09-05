@@ -1,0 +1,29 @@
+@startuml Overall_architecture
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Component.puml
+
+Container(loadBalancer, "Load balancer", "nginx")
+ContainerDb(database, "Main database", "MongoDB")
+
+Container_Boundary(main, "Backend API") {
+    Component(authentication, "Authentication", "passport (email, SSO)")
+    Component(authorization, "Authorization", "roles and permissions guards")
+    Component(post, "Posts controller", "controller")
+    Component(profile, "Profiles controller", "controller")
+    Component(postService, "Posts service", "provider", "should only return approved posts")
+    Component(profileService, "Profiles Service", "provider")
+}
+
+Rel_D(loadBalancer, authentication, "Forward request")
+
+Lay_R(authentication, authorization)
+Rel_D(authentication, post, "")
+Lay_R(post, profile)
+Rel_D(post, postService, "")
+Lay_R(postService, profileService)
+
+Rel_L(postService, database, "Fetch posts/profiles")
+
+
+@enduml
