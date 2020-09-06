@@ -5,6 +5,8 @@ import { UsersService } from 'src/users/users.service';
 import { AuthService } from './auth.service';
 import { plainToClass } from 'class-transformer';
 import { LocalAuthGuard } from './local.strategy';
+import { User } from 'src/users/user.schema';
+import { JwtResponse } from './dtos/jwt-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -16,7 +18,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    return plainToClass(ValidUserDto, req.user.toObject());
+    return plainToClass(JwtResponse, await this.authService.login(req.user));
   }
 
   @Post('register')
