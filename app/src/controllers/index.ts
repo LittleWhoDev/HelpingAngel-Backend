@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { rolesGuards } from 'src/auth'
 import { router as authRouter } from './auth'
 
 // Init router and path

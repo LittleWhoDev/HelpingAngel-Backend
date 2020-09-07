@@ -7,6 +7,8 @@ import { StatusCodes } from 'http-status-codes'
 import 'express-async-errors'
 
 import BaseRouter from './controllers'
+import passport from 'passport'
+import { getJwtStrategy } from './auth/jwt'
 
 // Init express
 const app = express()
@@ -18,6 +20,9 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
+app.use(passport.initialize())
+
+passport.use(getJwtStrategy())
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
