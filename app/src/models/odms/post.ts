@@ -1,7 +1,10 @@
 import { Document, model, Schema } from 'mongoose'
 import { PostCategory, PostInterface, PostType } from '../interfaces/post'
+import { UserDocument } from './user'
 
-export interface PostDocument extends PostInterface, Document {}
+export interface PostDocument extends PostInterface, Document {
+  author: UserDocument
+}
 export const PostSchema = new Schema({
   type: {
     type: PostType,

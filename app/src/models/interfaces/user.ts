@@ -9,7 +9,7 @@ export interface UserInterface {
 }
 
 export enum UserRole {
-  ANGER,
+  ANGEL,
   DONOR,
   REQUESTER,
 }
