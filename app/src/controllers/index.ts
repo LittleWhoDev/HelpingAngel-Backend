@@ -5,9 +5,9 @@ import { router as postsRouter } from './posts'
 
 // Init router and path
 const router = Router()
-router.use('/auth', authRouter)
-router.use('/users', usersRouter)
-router.use('/posts', postsRouter)
+router.use('/', authRouter)
+router.use('/', usersRouter)
+router.use('/', postsRouter)
 
 // Export the base-router
 export default router
