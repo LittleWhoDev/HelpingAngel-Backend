@@ -53,15 +53,16 @@ router.put('/:id', ...rolesGuards(), async (req, res) => {
 
   checkContract([
     [post !== null, 'Not found'],
-    [post!.author.id === currentUser.id, 'Forbidden'],
+    [post!.author?.id === currentUser.id, 'Forbidden'],
   ])
 
   const updated = await post?.update(req.body).exec()
   res.json(updated)
 })
 
-router.get('/search', (_, res) => {
+router.get('/', async (_, res) => {
   // TODO: implement search based on location range, category, type or full text search
-  res.status(StatusCodes.NOT_IMPLEMENTED)
-  res.send('TODO')
+  // /search?q=salut&category=1&range=15 near { range : ...}
+  const posts = await PostODM.find({}).exec()
+  res.json(posts)
 })
