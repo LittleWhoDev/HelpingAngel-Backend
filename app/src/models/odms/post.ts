@@ -30,4 +30,6 @@ export const PostSchema = new Schema({
 })
 // Support for GeoJSON object
 PostSchema.index({ location: '2dsphere' })
+PostSchema.index({ title: 'text', description: 'text' })
 export const PostODM = model<PostDocument>('Post', PostSchema)
+PostODM.createIndexes()

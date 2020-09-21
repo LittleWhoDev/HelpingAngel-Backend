@@ -1,9 +1,13 @@
 import { Router } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { rolesGuards } from 'src/auth'
-import { PostInterface, PostType } from 'src/models/interfaces/post'
+import {
+  PostCategory,
+  PostInterface,
+  PostType,
+} from 'src/models/interfaces/post'
 import { UserRole } from 'src/models/interfaces/user'
-import { PostDocument, PostODM } from 'src/models/odms/post'
+import { PostDocument, PostODM, PostSchema } from 'src/models/odms/post'
 import { UserDocument } from 'src/models/odms/user'
 import { checkContract, Implication } from 'src/utils/contracts'
 
@@ -60,9 +64,30 @@ router.put('/:id', ...rolesGuards(), async (req, res) => {
   res.json(updated)
 })
 
-router.get('/', async (_, res) => {
-  // TODO: implement search based on location range, category, type or full text search
-  // /search?q=salut&category=1&range=15 near { range : ...}
-  const posts = await PostODM.find({}).exec()
+router.get('/', async (req, res) => {
+  const query = req.query
+  const filterObj: any = {
+    ...(query.category && { category: parseInt(query.category as string) }),
+    ...(query.text && { $text: { $search: query.text } }),
+    ...(query.range &&
+      query.lat &&
+      query.long && {
+        location: {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [
+                parseFloat(query.lat as string),
+                parseFloat(query.long as string),
+              ],
+            },
+            $maxDistance: parseInt(query.range as string) * 1000,
+          },
+        },
+      }),
+  }
+
+  // TODO : fuzzy search
+  const posts = await PostODM.find(filterObj).exec()
   res.json(posts)
 })
