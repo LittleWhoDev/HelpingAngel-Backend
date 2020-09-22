@@ -3,7 +3,7 @@ import { PostCategory, PostInterface, PostType } from '../interfaces/post'
 import { UserDocument } from './user'
 
 export interface PostDocument extends PostInterface, Document {
-  author: UserDocument
+  author?: UserDocument
 }
 export const PostSchema = new Schema({
   type: {
@@ -30,4 +30,6 @@ export const PostSchema = new Schema({
 })
 // Support for GeoJSON object
 PostSchema.index({ location: '2dsphere' })
+PostSchema.index({ title: 'text', description: 'text' })
 export const PostODM = model<PostDocument>('Post', PostSchema)
+PostODM.createIndexes()
