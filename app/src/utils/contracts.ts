@@ -26,8 +26,6 @@ export const checkContract = (c: Contract | boolean, message?: string) => {
         if (condition[0] === false) throw Error(condition[1])
       } else if (isClause(condition[0]) && condition[0].evaluate() === false) {
         throw Error(condition[1])
-      } else {
-        throw new Error('Invalid contract')
       }
     })
   }
