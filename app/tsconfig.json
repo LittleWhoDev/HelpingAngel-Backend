@@ -13,13 +13,10 @@
     "target": "es2020",
     "moduleResolution": "node",
     "paths": {
-      "@daos/*": ["src/daos/*"],
-      "@entities/*": ["src/entities/*"],
-      "@shared/*": ["src/shared/*"],
+      "@": ["src/"],
       "@server": ["src/Server"]
     },
-    "types": ["node"],
-    "typeRoots": ["./src/types", "node_modules/@types"]
+    "typeRoots": ["src/types", "node_modules/@types"]
   },
   "include": ["src/**/*.ts", "spec/**/*.ts"],
   "exclude": ["src/public/"]
