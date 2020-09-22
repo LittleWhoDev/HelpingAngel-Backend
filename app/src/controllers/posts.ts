@@ -67,7 +67,7 @@ router.put('/:id', ...rolesGuards(), async (req, res) => {
 router.get('/', async (req, res) => {
   const query = req.query
   const filterObj: any = {
-    ...(query.category && { category: parseInt(query.category as string) }),
+    ...(query.category && { category: parseInt(query.category as string, 10) }),
     ...(query.text && { $text: { $search: query.text } }),
     ...(query.range &&
       query.lat &&
@@ -81,7 +81,7 @@ router.get('/', async (req, res) => {
                 parseFloat(query.long as string),
               ],
             },
-            $maxDistance: parseInt(query.range as string) * 1000,
+            $maxDistance: parseInt(query.range as string, 10) * 1000,
           },
         },
       }),

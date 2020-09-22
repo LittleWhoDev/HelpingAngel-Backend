@@ -21,10 +21,8 @@ connect(dbUri, { useNewUrlParser: true })
 // tslint:disable-next-line: no-console
 connection.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
-if (process.env.NODE_ENV == 'development') {
-  connection.once('open', function () {
-    console.log('Success connected to DB! :)')
-
+if (process.env.NODE_ENV === 'development') {
+  connection.once('open', async () => {
     if ((await PostODM.count({}).exec()) < 100) {
       for (let i = 0; i < 100; i++) {
         PostODM.create({
