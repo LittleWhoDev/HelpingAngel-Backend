@@ -14,7 +14,9 @@ export enum PostType {
   OFFER,
   REQUEST,
 }
+export const PostTypes = [PostType.OFFER, PostType.REQUEST]
 
 export enum PostCategory {
   FOOD,
 }
+export const PostCategories = [PostCategory.FOOD]

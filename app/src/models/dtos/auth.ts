@@ -1,21 +1,34 @@
-import { ProfileInterface } from '../interfaces/profile'
-import { UserRole } from '../interfaces/user'
+import { UserRole, UserRoles } from '../interfaces/user'
+import * as Joi from '@hapi/joi'
+import { ValidatedRequestSchema, ContainerTypes } from 'express-joi-validation'
 
-export interface RegisterDTO {
-  username: string
-  email?: string
-  password: string
-  role: UserRole
-  profile: ProfileInterface
+export const RegisterBodySchema = Joi.object({
+  username: Joi.string().required(),
+  email: Joi.string().email().optional(),
+  password: Joi.string().required(),
+  role: Joi.number()
+    .integer()
+    .valid(...UserRoles)
+    .required(),
+})
+
+export interface RegisterRequestDTO extends ValidatedRequestSchema {
+  [ContainerTypes.Body]: {
+    username: string
+    email?: string
+    password: string
+    role: UserRole
+  }
 }
 
-export interface LoginDTO {
-  username: string
-  password: string
-}
+export const LoginBodySchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().required(),
+})
 
-export interface SuccessDTO {
-  username: string
-  role: UserRole
-  token?: string
+export interface LoginRequestDTO extends ValidatedRequestSchema {
+  [ContainerTypes.Body]: {
+    username: string
+    password: string
+  }
 }

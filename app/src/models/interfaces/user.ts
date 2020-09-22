@@ -13,3 +13,4 @@ export enum UserRole {
   DONOR,
   REQUESTER,
 }
+export const UserRoles = [UserRole.ANGEL, UserRole.DONOR, UserRole.REQUESTER]
