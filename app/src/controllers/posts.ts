@@ -71,23 +71,36 @@ router.get('/', async (req, res) => {
     ...(query.text && { $text: { $search: query.text } }),
     ...(query.range &&
       query.lat &&
-      query.long && {
-        location: {
-          $near: {
-            $geometry: {
-              type: 'Point',
-              coordinates: [
-                parseFloat(query.lat as string),
-                parseFloat(query.long as string),
-              ],
-            },
-            $maxDistance: parseInt(query.range as string, 10) * 1000,
-          },
-        },
-      }),
+      query.long &&
+      locationQuery(
+        parseFloat(query.lat as string),
+        parseFloat(query.long as string),
+        parseInt(query.range as string, 10) * 1000
+      )),
+  }
+  const sortObj: any = {
+    ...(query.recent && { createdAt: -1 }),
   }
 
   // TODO : fuzzy search
-  const posts = await PostODM.find(filterObj).exec()
-  res.json(posts)
+  const postsQuery = query.recent
+    ? PostODM.find(filterObj)
+        .sort(sortObj)
+        .limit(parseInt(query.recent as string, 10))
+    : PostODM.find(filterObj)
+  res.json(await postsQuery.exec())
 })
+
+function locationQuery(lat: number, long: number, range: number) {
+  return {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates: [lat, long],
+        },
+        $maxDistance: range,
+      },
+    },
+  }
+}

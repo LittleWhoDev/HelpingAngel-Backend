@@ -5,29 +5,32 @@ import { UserDocument } from './user'
 export interface PostDocument extends PostInterface, Document {
   author?: UserDocument
 }
-export const PostSchema = new Schema({
-  type: {
-    type: PostType,
-    required: true,
+export const PostSchema = new Schema(
+  {
+    type: {
+      type: PostType,
+      required: true,
+    },
+    category: {
+      type: PostCategory,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    description: String,
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    location: {
+      type: { type: String },
+      coordinates: [],
+    },
   },
-  category: {
-    type: PostCategory,
-    required: true,
-  },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: String,
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
-  },
-  location: {
-    type: { type: String },
-    coordinates: [],
-  },
-})
+  { timestamps: true }
+)
 // Support for GeoJSON object
 PostSchema.index({ location: '2dsphere' })
 PostSchema.index({ title: 'text', description: 'text' })
