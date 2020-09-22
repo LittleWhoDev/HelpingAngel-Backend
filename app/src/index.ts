@@ -22,7 +22,7 @@ connect(dbUri, { useNewUrlParser: true })
 connection.on('error', console.error.bind(console, 'MongoDB connection error:'))
 
 if (process.env.NODE_ENV == 'development') {
-  connection.once('open', async function () {
+  connection.once('open', function () {
     console.log('Success connected to DB! :)')
 
     if ((await PostODM.count({}).exec()) < 100) {
