@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, text } from 'express'
 import { rolesGuards } from 'src/auth'
 import {
   PostCreateDTO,
@@ -107,8 +107,9 @@ router.get(
     const filterObj = {
       ...typeFilter,
       ...categoryFilter,
-      ...textFilter,
       ...rangeFilter,
+      // ...textFilter - TODO: MongoDB is not able to do geo queries and text search in the same query
+      // integrate elasticsearch for this
     }
 
     // TODO : fuzzy search
