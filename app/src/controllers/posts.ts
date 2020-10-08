@@ -89,7 +89,7 @@ router.get(
   async (req: ValidatedRequest<PostSearchDTO>, res) => {
     const query = req.query
 
-    const typeFilter = query.type && {
+    const typeFilter = query.type !== undefined && {
       type: query.type,
     }
     const categoryFilter = query.category !== undefined && {
