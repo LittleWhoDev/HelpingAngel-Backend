@@ -24,7 +24,8 @@ export const PostCreateSchema = Joi.object({
     .required(),
   title: Joi.string().required(),
   description: Joi.string().optional(),
-  location: LocationSchema.required(),
+  address: Joi.string().required(),
+  location: LocationSchema,
 })
 
 export const PostUpdateSchema = Joi.object({

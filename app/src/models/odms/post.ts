@@ -24,6 +24,10 @@ export const PostSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
     },
+    address: {
+      type: String,
+      required: true,
+    },
     location: {
       type: { type: String },
       coordinates: [],

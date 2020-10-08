@@ -7,6 +7,7 @@ export interface PostInterface {
   title: string
   description?: string
   location: PointInterface
+  address: string
   author?: UserInterface
 }
 
